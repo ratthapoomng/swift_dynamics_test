@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Email Sending Page</title>
+</head>
+<body>
+    <form name="email_sending_form">
+        <label for="recipient">recipient: </label><br>
+        <input type="text" id="recipient" name="recipient" value="" style="height:30px;width:350px;font-size:16pt;"><br>
+        <label for="email_body">email_body:</label><br>
+        <textarea type="text" id="email_body" name="email_body" value="" rows="20" cols="50" style="font-size:16pt;"></textarea><br>
+        <button type="button" id="send_button" onclick="sendData()">send email</button>
+    </form>
+</body>
+<script>
+function sendData() {
+    document.getElementById("send_button").disabled = true;
+    document.getElementById("send_button").value = "Sending";
+    var recipient = document.getElementById("recipient").value;
+    var email_body = document.getElementById("email_body").value;
+    var xhttp = new XMLHttpRequest();
+    var url = "/send_email/send";
+    xhttp.open("POST", url, true);
+    var data = JSON.stringify({
+        "recipient":recipient,
+        "email_body":email_body
+    });
+    xhttp.send(data);
+    xhttp.onload = function() {
+        alert(xhttp.responseText);
+        document.getElementById("send_button").disabled = false;
+        document.getElementById("send_button").value = "send email";
+    };
+}
+</script>
+</html>
